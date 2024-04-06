@@ -4,39 +4,95 @@
   import UplotVue from 'uplot-vue'
   import 'uplot/dist/uPlot.min.css'
   
-  import { charts } from './charts'
+  import { charts, switchTheme, setTheme } from './charts'
   
-  const boomKey = ref(0);
-  const mapKey = ref(0);
+  const chartKey = ref(0);
 
   function update() {
-    //charts["boom"].chart.redraw();
-    // set range
-    //if (boomKey.value % 10  == 0) { console.log("updating..."); }
-    boomKey.value +=1;
-    mapKey.value +=1;
+    // not sure why but this works (??)
+    chartKey.value +=1;
   }
   defineExpose({
-    update 
+    update,
+    switchTheme,
+    setTheme
   })
 </script>
 
+<style>
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,600px)
+}
+</style>
+
 <template>
-  <UplotVue
-      :data="charts['map'].data"
-      :options="charts['map'].options"
-      @create="(chart: uPlot) => { charts['map'].chart = chart; }"
-      :key="mapKey"
-  />
-  <UplotVue
-    :data="charts['boom'].data"
-    :options="charts['boom'].options"
-    @create="(chart: uPlot) => { charts['boom'].chart = chart; }"
-    :key="boomKey"
-  />
-  <UplotVue
-    :data="charts['rudder'].data"
-    :options="charts['rudder'].options"
-    @create="(chart: uPlot) => { charts['rudder'].chart = chart; }"
-  />
+  <v-container class="pa-0 ma-0" fluid >
+    <section class="grid">
+      <div class="item" style="grid-row: 1 / span 2">
+        <UplotVue style="width: 600px; height: 630px"
+            :data="charts['map'].data"
+            :options="charts['map'].options"
+            @create="(chart: uPlot) => { charts['map'].chart = chart; }"
+            :key="chartKey"
+          />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['boom'].data"
+          :options="charts['boom'].options"
+          @create="(chart: uPlot) => { charts['boom'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['rudder'].data"
+          :options="charts['rudder'].options"
+          @create="(chart: uPlot) => { charts['rudder'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['wind'].data"
+          :options="charts['wind'].options"
+          @create="(chart: uPlot) => { charts['wind'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['heel'].data"
+          :options="charts['heel'].options"
+          @create="(chart: uPlot) => { charts['heel'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['fwd'].data"
+          :options="charts['fwd'].options"
+          @create="(chart: uPlot) => { charts['fwd'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['yaw'].data"
+          :options="charts['yaw'].options"
+          @create="(chart: uPlot) => { charts['yaw'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
+          :data="charts['hike'].data"
+          :options="charts['hike'].options"
+          @create="(chart: uPlot) => { charts['hike'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+    </section>
+  </v-container>
 </template>

@@ -1,0 +1,27 @@
+appId: .au.com.virtualsailing.sailvis
+productName: sailvis
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!vite.config.{js,ts,mjs,cjs}'
+  - '!node_modules/*'
+  - '!dist-web/*'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+fileAssociations:
+  - ext: ".sbp"
+    description: "Sailsim recording file"
+    icon: public/favicon.ico
+win:
+  executableName: sailvis
+  icon: public/favicon.ico
+nsis: 
+  oneClick: true
+  runAfterFinish: false
+npmRebuild: false
+extraMetadata:
+  main: dist-electron/main/index.js

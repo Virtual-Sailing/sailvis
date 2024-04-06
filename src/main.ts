@@ -17,6 +17,7 @@ const vuetify = createVuetify({
         aliases,
         sets: { fa },
         },
+    theme: { defaultTheme: "light" },
     components,
     directives,
 })

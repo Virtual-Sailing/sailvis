@@ -1,4 +1,4 @@
-import uPlot, { type TypedArray } from "uplot";
+import uPlot, { type AlignedData, type TypedArray } from "uplot";
 import { Chart, charts } from "./charts";
 import type { ParseStepResult, Parser } from "papaparse";
 
@@ -53,7 +53,7 @@ function addPointsToMap(mapdata: (number[] | null | undefined)[], cell:string){
 // sail data format: timestamp, x, y, ...
 export function charstepper(updatefunc: ()=>void) {
     
-    return (results: ParseStepResult<Record<number, unknown>>, parser: Parser) => {
+    return (results: ParseStepResult<Record<number, unknown>>, parser: Parser, H: Record<string, number>) => {
         let row = results.data;
         if ((row[0] as string|number).toString().startsWith("@")) { 
             // handle metadata
@@ -67,12 +67,12 @@ export function charstepper(updatefunc: ()=>void) {
             return; 
         }
         else if (Object.keys(row).length < 6) { return; }
-        let timestamp = row[0] as number;
+        let timestamp = row[H.TIME] as number;
 
         // process map data:
-        let xy = charts["map"].data[1] as (number[] | null | undefined)[];
-        let x = row[2] as number;
-        let y = -(row[1] as number); // y is negative for some reason. I think because 3D coordinate convention used in the simulator.
+        let xy = charts["map"].data[1] as number[][];
+        let x = row[H.POSY] as number;
+        let y = -(row[H.POSX] as number); // y is negative for some reason. I think because 3D coordinate convention used in the simulator.
         xy[0]?.push(x);
         xy[1]?.push(y);
         maptime[timestamp] = [x,y];
@@ -80,12 +80,33 @@ export function charstepper(updatefunc: ()=>void) {
         // boom
         let d = charts["boom"].data as number[][];
         d[0].push(timestamp);
-        d[1].push(row[7] as number * 180 / Math.PI);
+        d[1].push(row[H.BOOM] as number * 180 / Math.PI);
         // rudder
         d = charts["rudder"].data as number[][];
         d[0].push(timestamp);
-        d[1].push(row[16] as number * 180 / Math.PI);
+        d[1].push(row[H.RUDDER] as number * 180 / Math.PI);
         // update map
+        // wind
+        var wd = charts["wind"].data as number[][];
+        wd[0].push(timestamp);
+        wd[1].push(row[H.GUST] as number / 0.51444); // What are these magic numbers?
+        wd[2]?.push(row[H.WIND] as number / 0.51444);
+        // heel
+        d = charts["heel"].data as number[][];
+        d[0].push(timestamp);
+        d[1].push(row[H.ANGX] as number * 180 / Math.PI);
+        // fwd vel
+        d = charts["fwd"].data as number[][];
+        d[0].push(timestamp);
+        d[1].push(-(row[H.VELX] as number) / 0.51444); // why is this inverse of magic number. I suspect this is because absolute inverted map coords same as "y" above in map.
+        // heading
+        d = charts["yaw"].data as number[][];
+        d[0].push(timestamp);
+        d[1].push(row[H.ANGZ] as number * 180 / Math.PI);
+        // hike
+        d = charts["hike"].data as number[][];
+        d[0].push(timestamp);
+        d[1].push(row[H.HIKE] as number);
         updatefunc();
     }
 }
@@ -99,7 +120,6 @@ export function drawPoints(sizemult: number) {
             // @ts-expect-error
             u.ctx.fillStyle = series.stroke();
             let deg360 = 2 * Math.PI;
-            console.time("points");
         //	let cir = new Path2D();
         //	cir.moveTo(0, 0);
         //	arc(cir, 0, 0, 3, 0, deg360);
@@ -128,7 +148,6 @@ export function drawPoints(sizemult: number) {
                 //	qt.add({x: cx - 1.5, y: cy - 1.5, w: 3, h: 3, sidx: seriesIdx, didx: i});
                 }
             }
-            console.timeEnd("points");
             u.ctx.fill(p);
         });
         return null;
