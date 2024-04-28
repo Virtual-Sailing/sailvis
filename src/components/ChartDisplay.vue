@@ -39,6 +39,14 @@
       </div>
       <div class="item">
         <UplotVue style="width: 600px; height: 330px"
+          :data="charts['fwd'].data"
+          :options="charts['fwd'].options"
+          @create="(chart: uPlot) => { charts['fwd'].chart = chart; }"
+          :key="chartKey"
+        />
+      </div>
+      <div class="item">
+        <UplotVue style="width: 600px; height: 330px"
           :data="charts['boom'].data"
           :options="charts['boom'].options"
           @create="(chart: uPlot) => { charts['boom'].chart = chart; }"
@@ -55,14 +63,6 @@
       </div>
       <div class="item">
         <UplotVue style="width: 600px; height: 330px"
-          :data="charts['wind'].data"
-          :options="charts['wind'].options"
-          @create="(chart: uPlot) => { charts['wind'].chart = chart; }"
-          :key="chartKey"
-        />
-      </div>
-      <div class="item">
-        <UplotVue style="width: 600px; height: 330px"
           :data="charts['heel'].data"
           :options="charts['heel'].options"
           @create="(chart: uPlot) => { charts['heel'].chart = chart; }"
@@ -71,9 +71,9 @@
       </div>
       <div class="item">
         <UplotVue style="width: 600px; height: 330px"
-          :data="charts['fwd'].data"
-          :options="charts['fwd'].options"
-          @create="(chart: uPlot) => { charts['fwd'].chart = chart; }"
+          :data="charts['wind'].data"
+          :options="charts['wind'].options"
+          @create="(chart: uPlot) => { charts['wind'].chart = chart; }"
           :key="chartKey"
         />
       </div>
