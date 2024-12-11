@@ -94,7 +94,7 @@ export function charstepper(updatefunc: ()=>void) {
         // heel
         d = charts["heel"].data as number[][];
         d[0].push(timestamp);
-        d[1].push(row[H.ANGX] as number * 180 / Math.PI);
+        d[1].push(row[H.ANGX] as number * 180 / Math.PI); // TODO: Figure out if I should be dividing by PI here...
         // fwd vel
         d = charts["fwd"].data as number[][];
         d[0].push(timestamp);
