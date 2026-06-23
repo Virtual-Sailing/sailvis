@@ -12,7 +12,8 @@
     "web": "vite",
     "build-web": "vite build",
     "build-electron": "electron-vite build",
-    "build:win": "npm run build-electron && electron-builder --win --config"
+    "build:win": "npm run build-electron && electron-builder --win --config",
+    "build:win32": "npm run build-electron && electron-builder --win --ia32 --config"
   },
   "dependencies": {
     "@types/papaparse": "^5.3.7",

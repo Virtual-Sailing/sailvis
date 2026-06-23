@@ -14,4 +14,11 @@ npm install
 ### Build electron ver
 ```npm run build-electron```
 ### Build standalone Windows electron ver with installer
-```npm build:win```
+```sh
+npm run build:win
+```
+
+### Build 32-bit standalone Windows electron ver with installer
+```sh
+npm run build:win32
+```
