@@ -1,24 +1,26 @@
 ## Project Setup
 
 ```sh
-npm install
+pnpm install
 ```
 
 ## Run modes
 ### Run web dev
-```npm run web```
+```pnpm run web```
 ### Run electron build in dev mode
-```npm run electron```
+```pnpm run electron```
 ### Build web ver
-```npm run build-web```
+```pnpm run build-web```
 ### Build electron ver
-```npm run build-electron```
+```pnpm run build-electron```
 ### Build standalone Windows electron ver with installer
 ```sh
-npm run build:win
+pnpm run build:win
 ```
 
 ### Build 32-bit standalone Windows electron ver with installer
 ```sh
-npm run build:win32
+pnpm run build:win32
 ```
+
+This target pins Electron 22 because Electron 23 and newer require Windows 10+.

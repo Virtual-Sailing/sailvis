@@ -8,6 +8,7 @@ export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
     build: {
+      target: 'node16.17',
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'electronBody/main.ts')
@@ -19,6 +20,7 @@ export default defineConfig({
   preload: {
     plugins: [externalizeDepsPlugin()],
     build: {
+      target: 'node16.17',
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'electronBody/preload.ts')
@@ -30,6 +32,7 @@ export default defineConfig({
   renderer: {
     root: ".",
     build: {
+      target: 'chrome108',
       rollupOptions: {
         input: {
           index: resolve(__dirname, 'index.html')
